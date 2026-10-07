@@ -1,0 +1,14 @@
+.DS_Store
+__pycache__/
+
+# Downloaded source datasets and generated pipeline outputs
+data/raw/
+data/outputs/
+data/processed/*
+!data/processed/sites.csv
+
+# Generated project deliverables
+/TBD2.pdf
+/TBD2_Gap_and_Solution_Plan.docx
+/TBD2_Project_Report.docx
+/TBD2_Project_Slides.pptx
