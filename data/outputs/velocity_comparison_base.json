@@ -1,0 +1,10 @@
+{
+  "spatial_gradient_c_per_km": 0.012085910071846338,
+  "past_median_climate_velocity_m_per_yr": 28.217985822757086,
+  "past_p95_climate_velocity_m_per_yr": 331.77391543597207,
+  "past_max_climate_velocity_m_per_yr": 342.8483257421791,
+  "modern_warming_c_per_century": 1.9,
+  "modern_climate_velocity_m_per_yr": 1572.078551557302,
+  "median_genus_migration_m_per_yr": 164.71090792168775,
+  "note": "Modern rate uses the value in config.py; cite the stated source. Past rates are averaged over 500-yr bins and so UNDERSTATE faster, shorter-lived change; the comparison with modern warming is therefore conservative."
+}
