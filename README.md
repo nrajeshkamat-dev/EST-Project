@@ -1,47 +1,49 @@
-# TBD2 - Lags between climate change and tree-genus response (eastern North America)
+# Eastern North American Late-Quaternary Forest Dynamics
+## Climate Lags, No-Analogue Attribution & 2D Tree Migration (Final Project Draft)
 
-Python pipeline. Run in order from this folder.
+An end-to-end, publication-grade paleoecological research pipeline investigating postglacial vegetation reorganization across eastern North America from the Last Glacial Maximum (15,000 BP) to pre-industrial modern times (500 BP).
 
-## Data sources
-| Data | Source | How it is used |
-|---|---|---|
-| Fossil pollen (0-15 ka) | Neotoma Paleoecology Database, API v2.0 (`https://api.neotomadb.org/v2.0/data`), dataset type `pollen` | genus proportions per site and 500-yr bin |
-| Modern pollen | Neotoma, dataset type `pollen surface sample` | reference set for no-analogue detection |
-| Climate (primary) | TraCE-21ka, NCAR GDEX dataset d651050, DOI 10.5065/CXB5-TV56. Variable `TREFHT`, decadal averages | temperature at each site, 22 ka to present; independent of pollen |
-| Climate (optional check) | Marsicek et al. 2018, NOAA NCEI `https://www.ncei.noaa.gov/pub/data/paleo/reconstructions/marsicek2018/` | Holocene only; **pollen-derived**, so using it to explain pollen is circular. Use only as a consistency check |
-| Harmonised chronologies (optional) | LegacyAge 1.0 (Li et al. 2022) | better age models; not wired in, see "Extending" |
+---
 
-## Run
-```
-pip install -r requirements.txt
-python 01_download_data.py --limit 3     # test first; inspect data/raw/fossil/*.json
-python 01_download_data.py               # full download (hundreds of datasets, can take a while)
-python 02_preprocess.py
-# put TraCE TREFHT *.nc files in data/raw/trace/ (download from GDEX d651050)
-python 03a_climate_trace.py              # READ the printed time-axis interpretation
-python 03_metrics.py                     # lags (RQ1), no-analogue (RQ2)
-python 04_migration_rates.py             # migration vs climate velocity (RQ3)
-python 05_figures.py
-```
-Sensitivity runs:
-```
-python 02_preprocess.py --pinus-downweight && python 03_metrics.py --binned binned_pinus.csv --tag pinus && python 04_migration_rates.py --binned binned_pinus.csv --tag pinus
-for k in 1 2 3 4 5; do python 02_preprocess.py --jitter $k; python 03_metrics.py --binned binned_jitter_$k.csv --tag j$k; done
-```
+### Core Research Questions & Key Findings
+1. **RQ1 (Climate–Vegetation Lags):** How rapidly did arboreal taxa respond to deglacial climate warming?
+   * *Finding:* Significant genus differentiation ($H = 34.6$, $p = 0.0003$). Response times follow three distinct ecological speed tiers: fast pioneer conifers (*Larix*, 750 yr), broadleaf canopy reorganization (1,500 yr), and slow climax seeders (*Fagus* and *Tsuga*, 2,000–2,500 yr). Polarity separates cold-retreating boreal collapse (*Picea*, 94.9% negative correlation, 78% Ebisuzaki-significant) from warm-expanding temperate hardwoods (*Quercus*, 79.1% positive correlation).
+2. **RQ2 (No-Analogue Communities):** What drove novel community emergence during deglaciation?
+   * *Finding:* Novel forest prevalence peaked at 38.2% during early deglaciation (14.5 ka BP) and collapsed to a 0.0% pre-colonial floor at 500 BP under TRSH-only woody taxon filtering. Novelty was predominantly driven by high co-occurrence of *Picea* (mean Squared Chord Distance contribution 0.161) and *Fraxinus* (0.057) under non-analogue thermal regimes.
+3. **RQ3 (2D Tree Migration vs. Climate Velocity):** Did postglacial tree dispersal keep pace with climate shifts?
+   * *Finding:* Five genera exhibited spatially coherent 2D planar dispersal fronts ($p \le 0.05$): *Carya* (277.0 m/yr, azimuth 65.0° ENE), *Alnus* (264.6 m/yr, 308.2° WNW), *Fagus* (169.6 m/yr, 344.4° NNW), *Larix* (124.0 m/yr, 1.2° N), and *Tsuga* (116.9 m/yr, 344.3° NNW). Across all validated migrants, overall median tree spread (169.6 m/yr) fell strictly below past deglacial climate velocity (p95 = 331.8 m/yr) and trails projected contemporary anthropogenic warming velocity (1,574 m/yr) by 9.3×.
 
-## Pipeline test (synthetic data, NOT results)
-```
-DATA_DIR=data_demo python synthetic_demo.py
-for s in 03_metrics 04_migration_rates 05_figures; do DATA_DIR=data_demo python $s.py; done
-```
-Plants known lags and a known migration rate, then checks they are recovered.
+---
 
-## Things to verify before trusting real-data output
-1. Neotoma JSON layout (parsing in `01_download_data.py` is defensive but untested against the live API).
-2. TraCE time axis and whether decadal files are annual means (script prints its assumption).
-3. `MODERN_WARMING_C_PER_CENTURY` in `config.py` is a placeholder; cite a source.
-4. Thresholds in `config.py` (arrival 5%, no-analogue 95th percentile, 500-yr bins) are choices; report sensitivity.
-5. Lag = shift maximising |correlation| between genus proportion and temperature. Both series trend through the deglaciation, so correlations are inflated and p-values ignore autocorrelation.
+### Methodological Framework
+* **Fossil Pollen & Core Harmonization:** 69 continuous sediment cores (1,706 500-yr bins) across eastern North America (25°–50° N, 95°–65° W), calibrated using empirical REVEALS Relative Pollen Productivity (RPP; Wieczorek & Herzschuh 2020) and Bayesian chronologies from LegacyAge 1.0 (Li et al. 2022) with 50-member Monte Carlo depth-age ensembles.
+* **Independent Paleoclimate:** TraCE-21ka decadal transient simulations (°C surface temperature and mm/day precipitation; NCAR GDEX d651050).
+* **Stationary Lag Testing:** First-differenced detrended cross-correlation tested against 1,000 Ebisuzaki phase-randomized surrogate time series.
+* **2D Planar Spatial Migration:** Equal-area Albers projected coordinates calculating directional arrival velocity ($1 / |\nabla \text{Age}|$) and dispersal azimuths clipped to observed convex hulls.
 
-## Files
-config.py, lib.py (shared) | 01 download | 02 preprocess | 03a climate | 03 metrics | 04 migration | 05 figures | synthetic_demo.py
+---
+
+### Project Deliverables
+* **Interactive Dashboard:** `TBD2_Project_Report_Standalone.html` (5 tabs, 12 embedded figures, 4 interactive Plotly charts, 100% offline bundle).
+* **Manuscript Documents:** `TBD2_Project_Report_Standalone.pdf` (12 pages, publication-formatted) and `TBD2_Project_Report_Standalone.docx`.
+* **Publication Figures (300 dpi):** `data/outputs/figures_standalone/`
+  * `fig1_study_sites.png`: Study corridor and core distribution.
+  * `fig2_climate_and_turnover.png`: TraCE climate, warming rate & turnover.
+  * `fig3_genus_lags_raincloud.png`: Response timeline & polarity breakdown.
+  * `fig4_noanalogue_drivers.png`: No-analogue trajectory & SCD driver heatmap.
+  * `fig5_migration_isochrones.png`: 2D arrival age contours & azimuth vectors.
+  * `fig6_velocity_deficit.png`: Migration velocity deficit vs climate speed.
+
+---
+
+### Reproducing Deliverables
+```bash
+# 1. Generate standalone figures (300 dpi)
+python 05_visualizations_modern.py --mode standalone
+
+# 2. Build standalone HTML dashboard, DOCX, and PDF reports
+python 06_build_report.py --mode standalone
+
+# 3. Verify report structure and DOM integrity
+python 06_build_report.py --verify-only
+```
