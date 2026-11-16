@@ -24,6 +24,7 @@ An end-to-end, publication-grade paleoecological research pipeline investigating
 ---
 
 ### Project Deliverables
+* **Presentation Deck:** `TBD2_Final_Project_Presentation.pptx` (22 slides, 16:9 widescreen, Light Academic theme, embedded 300-dpi figures, student-friendly copy, and full conversational speaker notes with timing cues).
 * **Interactive Dashboard:** `TBD2_Project_Report_Standalone.html` (5 tabs, 12 embedded figures, 4 interactive Plotly charts, 100% offline bundle).
 * **Manuscript Documents:** `TBD2_Project_Report_Standalone.pdf` (12 pages, publication-formatted) and `TBD2_Project_Report_Standalone.docx`.
 * **Publication Figures (300 dpi):** `data/outputs/figures_standalone/`
@@ -44,6 +45,9 @@ python 05_visualizations_modern.py --mode standalone
 # 2. Build standalone HTML dashboard, DOCX, and PDF reports
 python 06_build_report.py --mode standalone
 
-# 3. Verify report structure and DOM integrity
+# 3. Generate 25-minute academic defense presentation (16:9 PPTX)
+python generate_presentation.py
+
+# 4. Verify report structure and DOM integrity
 python 06_build_report.py --verify-only
 ```
