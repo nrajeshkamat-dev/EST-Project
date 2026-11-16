@@ -1,9 +1,11 @@
 .DS_Store
 __pycache__/
+.agents/
 
 # Downloaded source datasets and generated pipeline outputs
 data/raw/
-data/outputs/
+data/outputs/*
+!data/outputs/figures_standalone/
 data/processed/*
 !data/processed/sites.csv
 
